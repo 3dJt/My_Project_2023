@@ -5,21 +5,24 @@ root = Tk()
 root.title('Крестики-нолики')
 
 game_run = True
-field = []
+field = [] # двумерный список (поле)
 cross_count = 0
 
-# Новая игра
+# новая игра
 def new_game():
+    # создание поля
     for row in range(3):
         for col in range(3):
+
             field[row][col]['text'] = ' '
-            field[row][col]['background'] = 'lavender'
+            field[row][col]['background'] = 'white'
+
     global game_run
     game_run = True
     global cross_count
     cross_count = 0
 
-# Функция нажатия
+# функция нажатия
 def click(row, col):
     if game_run and field[row][col]['text'] == ' ':
         field[row][col]['text'] = 'X'
@@ -30,7 +33,7 @@ def click(row, col):
             computer_move()
             check_win('O')
 
-# Проверка на выигрыш
+# проверка на выигрыш
 def check_win(smb):
     for n in range(3):
         check_line(field[n][0], field[n][1], field[n][2], smb)
@@ -38,15 +41,14 @@ def check_win(smb):
     check_line(field[0][0], field[1][1], field[2][2], smb)
     check_line(field[2][0], field[1][1], field[0][2], smb)
 
-# Фон при победе
-def check_line(a1,a2,a3,smb):
+def check_line(a1, a2, a3, smb):
     if a1['text'] == smb and a2['text'] == smb and a3['text'] == smb:
         a1['background'] = a2['background'] = a3['background'] = 'red'
         global game_run
         game_run = False
 
-# Возможность компьютера выиграть
-def can_win(a1,a2,a3,smb):
+# проверка на возможность компьютера выиграть
+def can_win(a1, a2, a3, smb):
     res = False
     if a1['text'] == smb and a2['text'] == smb and a3['text'] == ' ':
         a3['text'] = 'O'
@@ -59,7 +61,7 @@ def can_win(a1,a2,a3,smb):
         res = True
     return res
 
-# Движения комьютера
+# движения комьютера
 def computer_move():
     for n in range(3):
         if can_win(field[n][0], field[n][1], field[n][2], 'O'):
